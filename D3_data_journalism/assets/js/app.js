@@ -1,14 +1,14 @@
 // @TODO: YOUR CODE HERE!
 // Define SVG area dimensions
-var svgWidth = 600;
-var svgHeight = 400;
+var svgWidth = 700;
+var svgHeight = 500;
 
 // Define the chart's margins as an object
 var chartMargin = {
-  top: 30,
-  right: 30,
-  bottom: 30,
-  left: 30
+  top: 50,
+  right: 50,
+  bottom: 50,
+  left: 50
 };
 
 // Define dimensions of the chart area
@@ -45,11 +45,11 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
 
     // Create scale functions
     var xLinearScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.poverty)])
+      .domain([8, d3.max(data, d => d.poverty + 2)])
       .range([0, chartWidth]);
 
     var yLinearScale = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.healthcare)])
+      .domain([2, d3.max(data, d => d.healthcare + 2)])
       .range([chartHeight, 0]);
 
     // Create axis functions
@@ -64,7 +64,8 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
     chartGroup.append("g")
       .call(leftAxis);
 
-    // Create Circles
+    //   Step 5: Create Circles
+    
     var circlesGroup = chartGroup.selectAll("circle")
       .data(data)
       .enter()
@@ -90,7 +91,8 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
         })
         .attr("font-family", "sans-serif")
         .attr("font-size", "10px")
-        .attr("text-anchor", "middle");
+        .attr("text-anchor", "middle")
+        .attr("fill", "white");
 
     // Create axes labels
     chartGroup.append("text")
@@ -102,7 +104,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
         .text("Lacks Healthcare (%)");
 
   chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth / 2 - 20}, ${chartHeight + chartMargin.top - 10})`)
+        .attr("transform", `translate(${chartWidth / 2 - 30}, ${chartHeight + chartMargin.top - 10})`)
         .attr("class", "axisText")
         .text("In Poverty (%)");
 
