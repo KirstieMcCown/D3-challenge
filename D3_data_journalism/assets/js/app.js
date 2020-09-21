@@ -102,7 +102,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
         .text("Lacks Healthcare (%)");
 
   chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth / 2 - 40}, ${chartHeight + chartMargin.top - 10})`)
+        .attr("transform", `translate(${chartWidth - 325}, ${chartHeight + chartMargin.top - 10})`)
         .attr("class", "axisText")
         .attr("font-family", "sans-serif")
         .style('stroke', '#000')
