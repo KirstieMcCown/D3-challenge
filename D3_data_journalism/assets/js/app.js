@@ -39,10 +39,6 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
       data.healthcare = +data.healthcare;
     });
 
-    // // Initial Params
-    // var XAxis = "poverty";
-    // var YAxis = "healthcare";
-
     // Create scale functions
     var xLinearScale = d3.scaleLinear()
       .domain([8, d3.max(data, d => d.poverty + 2)])
@@ -64,7 +60,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
     chartGroup.append("g")
       .call(leftAxis);
 
-    //   Step 5: Create Circles
+    // Create Circles
     
     var circlesGroup = chartGroup.selectAll("circle")
       .data(data)
@@ -73,7 +69,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
       .attr("cx", d => xLinearScale(d.poverty))
       .attr("cy", d => yLinearScale(d.healthcare))
       .attr("r", "10")
-      .attr("fill", "blue")
+      .attr("fill", "#3288bd")
       .attr("opacity", ".5");
 
     // Add abbreviation labels to circles
@@ -94,18 +90,22 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
         .attr("text-anchor", "middle")
         .attr("fill", "white");
 
-    // Create axes labels
+    // Create axis labels
     chartGroup.append("text")
         .attr("transform", "rotate(-90)")
         .attr("y", 0 - chartMargin.left)
-        .attr("x", 0 - (chartHeight / 1.45))
+        .attr("x", 0 - (chartHeight - 130))
         .attr("dy", "1em")
         .attr("class", "axisText")
+        .attr("font-family", "sans-serif")
+        .style('stroke', '#000')
         .text("Lacks Healthcare (%)");
 
   chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth / 2 - 30}, ${chartHeight + chartMargin.top - 10})`)
+        .attr("transform", `translate(${chartWidth / 2 - 40}, ${chartHeight + chartMargin.top - 10})`)
         .attr("class", "axisText")
+        .attr("font-family", "sans-serif")
+        .style('stroke', '#000')
         .text("In Poverty (%)");
 
     });
