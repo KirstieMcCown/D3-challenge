@@ -79,11 +79,12 @@ function renderAxes(newYScale, yAxis) {
 
 // function used for updating circles group with a transition to
 // new circles
-function renderCircles(circlesGroup, newXScale, chosenXAxis, chosenYAxis) {
+function renderCircles(circlesGroup, newXScale, chosenXAxis, newYscale, chosenYAxis) {
 
   circlesGroup.transition()
     .duration(1000)
-    .attr("cx", d => newXScale(d[chosenXAxis]));
+    .attr("cx", d => newXScale(d[chosenXAxis]))
+    .attr("cy", d => newXScale(d[chosenYAxis]));
 
   return circlesGroup;
 }
@@ -160,9 +161,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
     // Create scale functions
     var xLinearScale = xScale(data, chosenXAxis);
 
-    var yLinearScale = d3.scaleLinear()
-      .domain([2, d3.max(data, d => d.healthcare + 2)])
-      .range([chartHeight, 0]);
+    var yLinearScale = yScale(data, chosenYAxis);
 
     // Create axis functions
     var bottomAxis = d3.axisBottom(xLinearScale);
@@ -170,23 +169,24 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
 
     // Append Axes to the chart
     chartGroup.append("g")
+      .classed("x-axis", true)
       .attr("transform", `translate(0, ${chartHeight})`)
       .call(bottomAxis);
 
     chartGroup.append("g")
       .call(leftAxis);
 
-    // Create Circles
-    
+    // Append initial Circles
     var circlesGroup = chartGroup.selectAll("circle")
       .data(data)
       .enter()
       .append("circle")
-      .attr("cx", d => xLinearScale(d.poverty))
-      .attr("cy", d => yLinearScale(d.healthcare))
+      .attr("cx", d => xLinearScale(d[chosenXAxis]))
+      .attr("cy", d => yLinearScale(d[chosenYAxis]))
       .attr("r", "10")
       .attr("fill", "#3288bd")
       .attr("opacity", ".5");
+
 
     // Add abbreviation labels to circles
     var circleLabels = chartGroup.selectAll(null).data(data).enter().append("text");
@@ -206,22 +206,52 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
         .attr("text-anchor", "middle")
         .attr("fill", "white");
 
-    // Create axis labels
-    chartGroup.append("text")
-        .attr("transform", "rotate(-90)")
-        .attr("y", 0 - chartMargin.left)
-        .attr("x", 0 - (chartHeight - 130))
-        .attr("dy", "1em")
-        .attr("class", "axisText")
-        .attr("font-family", "sans-serif")
-        .style('stroke', '#000')
-        .text("Lacks Healthcare (%)");
+    // Create group for two x-axis labels
+    var labelsGroup = chartGroup.append("g")
+    .attr("transform", `translate(${width - 325}, ${height + chartMargin.top - 10})`);
 
-  chartGroup.append("text")
-        .attr("transform", `translate(${chartWidth - 325}, ${chartHeight + chartMargin.top - 10})`)
-        .attr("class", "axisText")
+    var povertyLabel = labelsGroup.append("text")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("value", "poverty") // value to grab for event listener
+        .classed("active", true)
         .attr("font-family", "sans-serif")
         .style('stroke', '#000')
         .text("In Poverty (%)");
+
+    var ageLabel = labelsGroup.append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("value", "age") // value to grab for event listener
+      .classed("active", true)
+      .attr("font-family", "sans-serif")
+      .style('stroke', '#000')
+      .text("Age (Median)");
+
+    var incomeLabel = labelsGroup.append("text")
+      .attr("x", 0)
+      .attr("y", 0)
+      .attr("value", "income") // value to grab for event listener
+      .classed("active", true)
+      .attr("font-family", "sans-serif")
+      .style('stroke', '#000')
+      .text("Household Income (Median)");
+
+
+
+
+
+
+// Create axis labels
+chartGroup.append("text")
+.attr("transform", "rotate(-90)")
+.attr("y", 0 - chartMargin.left)
+.attr("x", 0 - (chartHeight - 130))
+.attr("dy", "1em")
+.attr("class", "axisText")
+.attr("font-family", "sans-serif")
+.style('stroke', '#000')
+.text("Lacks Healthcare (%)");
+
 
     });
