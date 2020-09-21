@@ -29,6 +29,7 @@ var chartGroup = svg.append("g")
 
 // Initial Params
 var chosenXAxis = "poverty";  
+var chosenYAxis = "healthcare";  
 
 // function used for updating x-scale var upon click on axis label
 function xScale(data, chosenXAxis) {
@@ -43,7 +44,19 @@ function xScale(data, chosenXAxis) {
 
 }
 
-// function used for updating xAxis var upon click on axis label
+function yScale(data, chosenYAxis) {
+  // create scales
+  var yLinearScale = d3.scaleLinear()
+    .domain([d3.min(data, d => d[chosenYAxis]) * 0.8,
+      d3.max(data, d => d[chosenYAxis]) * 1.2
+    ])
+    .range([0, width]);
+
+  return yLinearScale;
+
+}
+
+// function used for updating X and Y Axis var upon click on axis label
 function renderAxes(newXScale, xAxis) {
   var bottomAxis = d3.axisBottom(newXScale);
 
@@ -54,9 +67,19 @@ function renderAxes(newXScale, xAxis) {
   return xAxis;
 }
 
+function renderAxes(newYScale, yAxis) {
+  var leftAxis = d3.axisLeft(newYScale);
+
+  yAxis.transition()
+    .duration(1000)
+    .call(leftAxis);
+
+  return yAxis;
+}
+
 // function used for updating circles group with a transition to
 // new circles
-function renderCircles(circlesGroup, newXScale, chosenXAxis) {
+function renderCircles(circlesGroup, newXScale, chosenXAxis, chosenYAxis) {
 
   circlesGroup.transition()
     .duration(1000)
@@ -67,7 +90,7 @@ function renderCircles(circlesGroup, newXScale, chosenXAxis) {
 
 
 // function used for updating circles group with new tooltip
-function updateToolTip(chosenXAxis, circlesGroup) {
+function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
   var label;
 
@@ -80,6 +103,19 @@ function updateToolTip(chosenXAxis, circlesGroup) {
   else {
     label = "Household Income (Median)";
   }
+
+  if (chosenYAxis === "healthcare") {
+    label = "Lacks Healthcare (%)";
+  }
+  else if (chosenXAxis === "smokes") {
+    label = "Smokes (%)";
+  }
+  else {
+    label = "Obese (%)";
+  }
+
+
+
 
   var toolTip = d3.tip()
     .attr("class", "tooltip")
@@ -122,9 +158,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data) {
     });
 
     // Create scale functions
-    var xLinearScale = d3.scaleLinear()
-      .domain([8, d3.max(data, d => d.poverty + 2)])
-      .range([0, chartWidth]);
+    var xLinearScale = xScale(data, chosenXAxis);
 
     var yLinearScale = d3.scaleLinear()
       .domain([2, d3.max(data, d => d.healthcare + 2)])
