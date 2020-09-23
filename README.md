@@ -1,85 +1,102 @@
 # D3 Homework - Data Journalism and D3
 
-![Newsroom](https://media.giphy.com/media/v2xIous7mnEYg/giphy.gif)
+![Header](Images/Header.PNG)<br>
 
-## Background
+Welcome to my project repo!
+You can visit the website [here](https://kirstiemccown.github.io/D3-challenge/), or feel free to take a look around the repo folders!
+When you visit the website, you will find an interactive dashboard where you can observe information about microbes that colonise human navels!
 
-Welcome to the newsroom! You've just accepted a data visualization position for a major metro paper. You're tasked with analyzing the current trends shaping people's lives, as well as creating charts, graphs, and interactive elements to help readers understand your findings.
+If you are interested, you can find out more information about the study that this data was obtained from here: [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/)
 
-The editor wants to run a series of feature stories about the health risks facing particular demographics. She's counting on you to sniff out the first story idea by sifting through information from the U.S. Census Bureau and the Behavioral Risk Factor Surveillance System.
+## About the Dashboard
 
-The data set included with the assignment is based on 2014 ACS 1-year estimates: [https://factfinder.census.gov/faces/nav/jsf/pages/searchresults.xhtml](https://factfinder.census.gov/faces/nav/jsf/pages/searchresults.xhtml), but you are free to investigate a different data set. The current data set includes data on rates of income, obesity, poverty, etc. by state. MOE stands for "margin of error."
+The dashboard will provide you with an insight to each test subject(s) results, from the Belly Button Biodiversity study.
+By selecting a test subject ID number from the available drop down menu, you will be shown three interactive charts and all demographic information for the selected test subject.
 
-### Before You Begin
+### The Charts
 
-1. Create a new repository for this project called `D3-challenge`. **Do not add this homework to an existing repository**.
+There are 3 different types of charts available to view, the first is a bar chart which shows the top 10 OTU's (operational taxonomic units), found on the selected test subject<br>
+![bar Chart](Images/Top10.PNG)<br>
 
-2. Clone the new repository to your computer.
+The second is a gauge of the Wash Frequency of the selected test subject, showing how many times per week the individual washed their belly button<br>
+![Weekly Washing Frequency Gauge](Images/Wash.PNG)<br>
 
-3. Inside your local git repository, create a directory for the D3 challenge. Use the folder name to correspond to the challenge: **D3_data_journalism**.
+This statistic is also reflected in the Demographic Information, which provides you with more details about the selected test subject <br>
+![Demographics](Images/Demo.PNG)<br>
 
-4. This homeworks utilizes both **html** and **Javascript** so be sure to add all the necessary files. These will be the main files to run for analysis.
+Finally there is an interactive bubble chart, that allows you to see all OTU's that were found on the selected test subject over the course of the study.<br>
+![Bubble Chart](Images/AllOTUs.PNG)<br>
 
-5. Push the above changes to GitHub or GitLab.
+### Created With
 
-## Your Task
+This project was created using the following:<br>
 
-### Core Assignment: D3 Dabbler (Required Assignment)
+- Plotly
+- JavaScript
+- Bootstrap
+- HTML
+- CSS
 
-![4-scatter](Images/4-scatter.jpg)
+#### Project Instructions
 
-You need to create a scatter plot between two of the data variables such as `Healthcare vs. Poverty` or `Smokers vs. Age`.
+In this assignment, you will build an interactive dashboard to explore the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/), which catalogs the microbes that colonize human navels.
 
-Using the D3 techniques we taught you in class, create a scatter plot that represents each state with circle elements. You'll code this graphic in the `app.js` file of your homework directory—make sure you pull in the data from `data.csv` by using the `d3.csv` function. Your scatter plot should ultimately appear like the image at the top of this section.
+The dataset reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.
 
-* Include state abbreviations in the circles.
+#### Step 1: Plotly
 
-* Create and situate your axes and labels to the left and bottom of the chart.
+1. Use the D3 library to read in `samples.json`.
 
-* Note: You'll need to use `python -m http.server` to run the visualization. This will host the page at `localhost:8000` in your web browser.
+2. Create a horizontal bar chart with a dropdown menu to display the top 10 OTUs found in that individual.
 
-- - -
+- Use `sample_values` as the values for the bar chart.
 
-### Bonus: Impress the Boss (Optional Assignment)
+- Use `otu_ids` as the labels for the bar chart.
 
-Why make a static graphic when D3 lets you interact with your data?
+- Use `otu_labels` as the hovertext for the chart.
 
-![7-animated-scatter](Images/7-animated-scatter.gif)
+3. Create a bubble chart that displays each sample.
 
-#### 1. More Data, More Dynamics
+- Use `otu_ids` for the x values.
 
-You're going to include more demographics and more risk factors. Place additional labels in your scatter plot and give them click events so that your users can decide which data to display. Animate the transitions for your circles' locations as well as the range of your axes. Do this for two risk factors for each axis. Or, for an extreme challenge, create three for each axis.
+- Use `sample_values` for the y values.
 
-* Hint: Try binding all of the CSV data to your circles. This will let you easily determine their x or y values when you click the labels.
+- Use `sample_values` for the marker size.
 
-#### 2. Incorporate d3-tip
+- Use `otu_ids` for the marker colors.
 
-While the ticks on the axes allow us to infer approximate values for each circle, it's impossible to determine the true value without adding another layer of data. Enter tooltips: developers can implement these in their D3 graphics to reveal a specific element's data when the user hovers their cursor over the element. Add tooltips to your circles and display each tooltip with the data that the user has selected. Use the `d3-tip.js` plugin developed by [Justin Palmer](https://github.com/Caged)—we've already included this plugin in your assignment directory.
+- Use `otu_labels` for the text values.
 
-![8-tooltip](Images/8-tooltip.gif)
+4. Display the sample metadata, i.e., an individual's demographic information.
 
-* Check out [David Gotz's example](https://bl.ocks.org/davegotz/bd54b56723c154d25eedde6504d30ad7) to see how you should implement tooltips with d3-tip.
+5. Display each key-value pair from the metadata JSON object somewhere on the page.
 
-- - -
+6. Update all of the plots any time that a new sample is selected.
 
-### Assessment
+Additionally, you are welcome to create any layout that you would like for your dashboard. An example dashboard is shown below:
 
-Your final product will be assessed on the following metrics:
+#### Advanced Challenge Assignment (Optional)
 
-* Creation of a **new** repository on GitHub called `D3-Challenge` (note the kebab-case). Do not add to an already existing repo.
+The following task is advanced and therefore optional.
 
-* Completion of all steps in the core assignment
+- Adapt the Gauge Chart from <https://plot.ly/javascript/gauge-charts/> to plot the weekly washing frequency of the individual.
 
-* Coherency of scatter plot (labels, ticks)
+- You will need to modify the example gauge code to account for values ranging from 0 through 9.
 
-* Visual attraction
+- Update the chart whenever a new sample is selected.
 
-* Professionalism
+#### Deployment
 
-* Ensure your repository has regular commits (i.e. 20+ commits) and a thorough README.md file
+- Deploy your app to a free static page hosting service, such as GitHub Pages. Submit the links to your deployment and your GitHub repo.
 
-**Good luck!**
+- Ensure your repository has regular commits (i.e. 20+ commits) and a thorough README.md file
 
-### Copyright
+#### Hints
 
-Trilogy Education Services © 2019. All Rights Reserved.
+- Use `console.log` inside of your JavaScript code to see what your data looks like at each step.
+
+- Refer to the [Plotly.js documentation](https://plot.ly/javascript/) when building the plots.
+
+#### About the Data
+
+Hulcr, J. et al.(2012) _A Jungle in There: Bacteria in Belly Buttons are Highly Diverse, but Predictable_. Retrieved from: [http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/](http://robdunnlab.com/projects/belly-button-biodiversity/results-and-data/)

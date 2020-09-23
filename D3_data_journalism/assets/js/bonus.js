@@ -162,12 +162,14 @@ function updateToolTip(chosenXAxis, chosenYAxis, circleLabels) {
   return circleLabels;
 }
 
+// D3-challenge\D3_data_journalism\assets\data\data.csv
+
 // Load data from data.csv
-d3.csv("../D3_data_journalism/assets/data/data.csv")
+d3.csv("D3_data_journalism/assets/data/data.csv")
   .then(function (data, err) {
     if (err) throw err;
     // Print the Data to the Console
-    // console.log(data);
+    console.log(data);
 
     //  Parse Data/Cast as numbers
     data.forEach(function (data) {
