@@ -5,7 +5,7 @@ var svgHeight = 600;
 
 // Define the chart's margins as an object
 var margin = {
-  top: 20,
+  top: 100,
   right: 20,
   bottom: 100,
   left: 100,
@@ -18,7 +18,15 @@ var height = svgHeight - margin.top - margin.bottom;
 // Select body, append SVG area to it, and set the dimensions
 var svg = d3
   .select("#scatter")
+  .append("div")
+  // Container class to make it responsive.
+  .classed("svg-container", true)
   .append("svg")
+  // Responsive SVG needs these 2 attributes and no width and height attr.
+  .attr("preserveAspectRatio", "xMinYMin meet")
+  .attr("viewBox", "0 0 900 600")
+  // Class to make it responsive.
+  .classed("svg-content-responsive", true)
   .attr("width", svgWidth)
   .attr("height", svgHeight);
 
